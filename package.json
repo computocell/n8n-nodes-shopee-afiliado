@@ -1,0 +1,49 @@
+{
+  "name": "n8n-nodes-shopee-affiliate",
+  "version": "0.0.1",
+  "description": "Shopee Affiliate node for n8n",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "shopee",
+    "affiliate"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/seuusuario/n8n-nodes-shopee-affiliate",
+  "author": {
+    "name": "Jefferson"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seuusuario/n8n-nodes-shopee-affiliate.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && gulp build:icons",
+    "dev": "tsc --watch",
+    "lint": "eslint nodes credentials --ext .ts",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist"
+  ],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/ShopeeAffiliateApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/ShopeeAffiliate/ShopeeAffiliate.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "eslint": "^8.57.0",
+    "gulp": "^4.0.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "n8n-workflow": "^1.82.0",
+    "n8n-core": "^1.82.0"
+  }
+}
