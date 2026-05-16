@@ -11,7 +11,7 @@ export const getOffersProperties:
   INodeProperties[] = [
 
     {
-      displayName: 'Limite',
+      displayName: 'Limit',
 
       name: 'limit',
 
@@ -27,6 +27,28 @@ export const getOffersProperties:
         },
       },
     },
+
+    {
+      displayName: 'Short Link',
+
+      name: 'shortlink',
+
+      type: 'boolean',
+
+      default: true,
+
+      displayOptions: {
+        show: {
+          operation: [
+            'getOffers',
+          ],
+        },
+      },
+
+      description:
+        'Gera shortlink afiliado',
+    },
+
     {
       displayName: 'Miniatura',
 
@@ -60,12 +82,18 @@ export async function executeGetOffers(
       index,
     ) as number;
 
-
   const thumbnail =
     context.getNodeParameter(
       'thumbnail',
       index,
     ) as boolean;
+
+  const shortlink =
+    context.getNodeParameter(
+      'shortlink',
+      index,
+    ) as boolean;
+
   /*
    * Busca ofertas
    */
@@ -77,12 +105,15 @@ export async function executeGetOffers(
 			) {
 				nodes {
 					itemId
-					productName
-					price
-					sales
 					commissionRate
-					offerLink
+          commission
 					imageUrl
+					price
+          productLink
+					offerLink
+					productName
+					sales
+          productCatIds
 				}
 			}
 		}
@@ -118,54 +149,67 @@ export async function executeGetOffers(
       .nodes || [];
 
   /*
-   * Gera short link
+   * Miniatura
    */
 
-  await Promise.all(
+  if (thumbnail) {
 
-    products.map(
-      async (product: any) => {
+    for (const product of products) {
 
-        try {
+      product.miniatura =
+        `=IMAGE("${product.imageUrl}";4;400;400)`;
+    }
+  }
 
-          const shortLinkQuery = `
-					mutation {
-						generateShortLink(
-							input: {
-								originUrl: "${product.offerLink}"
+  /*
+   * Short Links
+   */
+
+  if (shortlink) {
+
+    await Promise.all(
+
+      products.map(
+        async (product: any) => {
+
+          try {
+
+            const shortLinkQuery = `
+							mutation {
+								generateShortLink(
+									input: {
+										originUrl: "${product.offerLink}"
+									}
+								) {
+									shortLink
+								}
 							}
-						) {
-							shortLink
-						}
-					}
-				`;
+						`;
 
-          const shortLinkResponse =
-            await graphqlRequest(
-              context,
-              {
-                query:
-                  shortLinkQuery,
-              },
-            );
+            const shortLinkResponse =
+              await graphqlRequest(
+                context,
+                {
+                  query:
+                    shortLinkQuery,
+                },
+              );
 
-          product.shortLink =
-            shortLinkResponse
-              ?.data
-              ?.generateShortLink
-              ?.shortLink || null;
-              if(thumbnail) {
-                product.miniatura = `=IMAGE("${product.imageUrl}";4;400;400)`;
-              }
+            product.shortLink =
+              shortLinkResponse
+                ?.data
+                ?.generateShortLink
+                ?.shortLink || null;
 
-        } catch {
+          } catch {
 
-          product.shortLink =
-            null;
-        }
-      },
-    ),
-  );
+            product.shortLink =
+              null;
+          }
+        },
+      ),
+    );
+  }
 
   return {
     nodes: products,
