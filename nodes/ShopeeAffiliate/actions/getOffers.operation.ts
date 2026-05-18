@@ -7,61 +7,14 @@ import {
 import { graphqlRequest }
   from '../transport/graphql.request';
 
+import { commonProductProperties }
+  from './common.properties';
+
 export const getOffersProperties:
   INodeProperties[] = [
 
     /*
-     * Keyword
-     */
-
-    {
-      displayName: 'Keyword',
-
-      name: 'keyword',
-
-      type: 'string',
-
-      default: '',
-
-      description:
-        'Busca produtos pelo nome',
-
-      displayOptions: {
-        show: {
-          operation: [
-            'getOffers',
-          ],
-        },
-      },
-    },
-
-    /*
-     * Shop ID
-     */
-
-    {
-      displayName: 'Shop ID',
-
-      name: 'shopId',
-
-      type: 'number',
-
-      default: 0,
-
-      description:
-        'Filtra produtos de uma loja específica',
-
-      displayOptions: {
-        show: {
-          operation: [
-            'getOffers',
-          ],
-        },
-      },
-    },
-
-    /*
-     * Item ID
+     * Item ID (exclusivo do getOffers)
      */
 
     {
@@ -86,45 +39,20 @@ export const getOffersProperties:
     },
 
     /*
-     * Category ID
+     * List Type (exclusivo do getOffers)
      */
 
     {
-      displayName: 'Category ID',
+      displayName: 'List Type',
 
-      name: 'productCatId',
+      name: 'listType',
 
-      type: 'number',
+      type: 'options',
 
       default: 0,
 
       description:
-        'Filtra produtos por categoria Shopee',
-
-      displayOptions: {
-        show: {
-          operation: [
-            'getOffers',
-          ],
-        },
-      },
-    },
-
-    /*
-     * Sort Type
-     */
-
-    {
-      displayName: 'Sort Type',
-
-      name: 'sortType',
-
-      type: 'options',
-
-      default: 1,
-
-      description:
-        'Define a ordenação dos produtos retornados',
+        'Type of product offer list',
 
       displayOptions: {
         show: {
@@ -137,67 +65,67 @@ export const getOffersProperties:
       options: [
 
         {
-          name: 'Relevance',
+          name: 'All',
 
-          value: 1,
+          value: 0,
 
           description:
-            'Ordena por relevância da keyword',
+            'Recommendation product list, not available to sort',
         },
 
         {
-          name: 'Items Sold',
+          name: 'Top Performing',
 
           value: 2,
 
           description:
-            'Produtos mais vendidos primeiro',
+            'Top performing product offer list, not available to sort',
         },
 
         {
-          name: 'Price Desc',
+          name: 'Landing Category',
 
           value: 3,
 
           description:
-            'Maior preço primeiro',
+            'Product offer list of recommendation category in landing page, not available to sort',
         },
 
         {
-          name: 'Price Asc',
+          name: 'Detail Category',
 
           value: 4,
 
           description:
-            'Menor preço primeiro',
+            'Product offer list of specific category in detail page',
         },
 
         {
-          name: 'Commission Desc',
+          name: 'Detail Shop',
 
           value: 5,
 
           description:
-            'Maior comissão primeiro',
+            'Product offer list of specific shop in detail page',
         },
       ],
     },
 
     /*
-     * Page
+     * Match ID (exclusivo do getOffers)
      */
 
     {
-      displayName: 'Page',
+      displayName: 'Match ID',
 
-      name: 'page',
+      name: 'matchId',
 
       type: 'number',
 
-      default: 1,
+      default: 0,
 
       description:
-        'Número da página da consulta',
+        'The matchid for specific listType. CategoryId for LANDING_CATEGORY and DETAIL_CATEGORY; ShopId for DETAIL_SHOP',
 
       displayOptions: {
         show: {
@@ -209,129 +137,10 @@ export const getOffersProperties:
     },
 
     /*
-     * Limit
+     * Propriedades comuns (compartilhadas com searchProducts)
      */
 
-    {
-      displayName: 'Limit',
-
-      name: 'limit',
-
-      type: 'number',
-
-      default: 10,
-
-      description:
-        'Quantidade máxima de produtos retornados',
-
-      displayOptions: {
-        show: {
-          operation: [
-            'getOffers',
-          ],
-        },
-      },
-    },
-
-    /*
-     * AMS Offer
-     */
-
-    {
-      displayName: 'AMS Offer',
-
-      name: 'isAMSOffer',
-
-      type: 'boolean',
-
-      default: false,
-
-      description:
-        'Filtra produtos que possuem comissão AMS (Commission Xtra)',
-
-      displayOptions: {
-        show: {
-          operation: [
-            'getOffers',
-          ],
-        },
-      },
-    },
-
-    /*
-     * Key Seller
-     */
-
-    {
-      displayName: 'Key Seller',
-
-      name: 'isKeySeller',
-
-      type: 'boolean',
-
-      default: false,
-
-      description:
-        'Filtra apenas produtos de vendedores parceiros principais da Shopee',
-
-      displayOptions: {
-        show: {
-          operation: [
-            'getOffers',
-          ],
-        },
-      },
-    },
-
-    /*
-     * Short Link
-     */
-
-    {
-      displayName: 'Short Link',
-
-      name: 'shortlink',
-
-      type: 'boolean',
-
-      default: true,
-
-      description:
-        'Gera automaticamente links curtos de afiliado. Pode aumentar o tempo da execução devido às requisições extras.',
-
-      displayOptions: {
-        show: {
-          operation: [
-            'getOffers',
-          ],
-        },
-      },
-    },
-
-    /*
-     * Miniatura
-     */
-
-    {
-      displayName: 'Miniatura',
-
-      name: 'thumbnail',
-
-      type: 'boolean',
-
-      default: false,
-
-      description:
-        'Adiciona fórmula IMAGE pronta para Google Sheets',
-
-      displayOptions: {
-        show: {
-          operation: [
-            'getOffers',
-          ],
-        },
-      },
-    },
+    ...commonProductProperties,
   ];
 
 export async function executeGetOffers(
@@ -366,6 +175,18 @@ export async function executeGetOffers(
   const sortType =
     context.getNodeParameter(
       'sortType',
+      index,
+    ) as number;
+
+  const listType =
+    context.getNodeParameter(
+      'listType',
+      index,
+    ) as number;
+
+  const matchId =
+    context.getNodeParameter(
+      'matchId',
       index,
     ) as number;
 
@@ -425,6 +246,14 @@ export async function executeGetOffers(
 
     sortType
       ? `sortType: ${sortType}`
+      : null,
+
+    listType !== undefined
+      ? `listType: ${listType}`
+      : null,
+
+    matchId
+      ? `matchId: ${matchId}`
       : null,
 
     page
