@@ -1,6 +1,6 @@
 {
-  "name": "n8n-nodes-shopee-affiliate",
-  "version": "0.0.1",
+  "name": "@oliveirajeffso/n8n-nodes-shopee-affiliate",
+  "version": "0.0.2",
   "description": "Shopee Affiliate node for n8n",
   "keywords": [
     "n8n-community-node-package"
