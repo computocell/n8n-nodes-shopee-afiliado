@@ -1,0 +1,6 @@
+# Excluir tudo por padrão
+*
+# Incluir apenas o que queremos publicar
+!dist/
+!README.md
+!LICENSE

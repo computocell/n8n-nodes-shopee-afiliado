@@ -1,6 +1,6 @@
 {
   "name": "@oliveirajeffso/n8n-nodes-shopee-affiliate",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "Shopee Affiliate node for n8n",
   "keywords": [
     "n8n-community-node-package"
@@ -9,14 +9,17 @@
   "main": "dist/index.js",
   "files": [
     "dist",
-    "nodes"
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc && gulp build:icons && cp nodes/ShopeeAffiliate/*.svg dist/nodes/ShopeeAffiliate/",
     "buildAndRun": "docker compose down && docker compose build --no-cache && docker compose up",
     "test": "tsc && jest",
     "postinstall": "npx @socketsecurity/socket-patch apply --silent --ecosystems npm",
-    "dependencies": "npx @socketsecurity/socket-patch apply --silent --ecosystems npm"
+    "dependencies": "npx @socketsecurity/socket-patch apply --silent --ecosystems npm",
+    "prepublishOnly": "npm run build"
+
   },
   "n8n": {
     "n8nNodesApiVersion": 1,
