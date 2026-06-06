@@ -147,37 +147,19 @@ export class ShopeeAffiliate
     const items =
       this.getInputData();
 
-    const returnData:
-      INodeExecutionData[] = [];
+    const promises = items.map(async (_, i) => {
+      const resultItems: INodeExecutionData[] = [];
 
-    for (
-      let i = 0;
-      i < items.length;
-      i++
-    ) {
-
-      const operation =
-        this.getNodeParameter(
-          'operation',
-          i,
-        );
+      const operation = this.getNodeParameter("operation", i);
 
       /*
        * Generate Short Link
        */
 
-      if (
-        operation ===
-        'generateShortLink'
-      ) {
+      if (operation === "generateShortLink") {
+        const data = await executeGenerateShortLink(this, i);
 
-        const data =
-          await executeGenerateShortLink(
-            this,
-            i,
-          );
-
-        returnData.push({
+        resultItems.push({
           json: data,
         });
       }
@@ -186,18 +168,10 @@ export class ShopeeAffiliate
        * Get Offers
        */
 
-      if (
-        operation ===
-        'getOffers'
-      ) {
+      if (operation === "getOffers") {
+        const data = await executeGetOffers(this, i);
 
-        const data =
-          await executeGetOffers(
-            this,
-            i,
-          );
-
-        returnData.push({
+        resultItems.push({
           json: data,
         });
       }
@@ -206,25 +180,17 @@ export class ShopeeAffiliate
        * Get Offers Automation
        */
 
-      if (
-        operation ===
-        'getOffersAutomation'
-      ) {
-
-        const data: any =
-          await executeGetOffersAutomation(
-            this,
-            i,
-          );
+      if (operation === "getOffersAutomation") {
+        const data: any = await executeGetOffersAutomation(this, i);
 
         if (data.nodes && Array.isArray(data.nodes)) {
           for (const item of data.nodes) {
-            returnData.push({
+            resultItems.push({
               json: item,
             });
           }
         } else {
-          returnData.push({
+          resultItems.push({
             json: data,
           });
         }
@@ -234,22 +200,19 @@ export class ShopeeAffiliate
        * Search Products
        */
 
-      if (
-        operation ===
-        'searchProducts'
-      ) {
+      if (operation === "searchProducts") {
+        const data = await executeSearchProducts(this, i);
 
-        const data =
-          await executeSearchProducts(
-            this,
-            i,
-          );
-
-        returnData.push({
+        resultItems.push({
           json: data,
         });
       }
-    }
+
+      return resultItems;
+    });
+
+    const resolvedData = await Promise.all(promises);
+    const returnData = resolvedData.reduce((acc, val) => acc.concat(val), []);
 
     return [returnData];
   }
