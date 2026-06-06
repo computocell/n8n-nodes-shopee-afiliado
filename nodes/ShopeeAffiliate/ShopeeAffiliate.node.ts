@@ -6,124 +6,88 @@ import {
 } from 'n8n-workflow';
 
 import {
-
   generateShortLinkProperties,
   executeGenerateShortLink,
-
-  getOffersProperties,
   executeGetOffers,
-
-  searchProductsProperties,
   executeSearchProducts,
-  getOffersAutomationProperties,
   executeGetOffersAutomation,
+} from "./actions";
 
-} from './actions';
+import { commonProductProperties } from "./actions/common.properties";
 
-export class ShopeeAffiliate
-  implements INodeType {
-
+export class ShopeeAffiliate implements INodeType {
   description: INodeTypeDescription = {
+    displayName: "Shopee Affiliate",
 
-    displayName:
-      'Shopee Affiliate',
+    name: "shopeeAffiliate",
 
-    name:
-      'shopeeAffiliate',
+    icon: "file:shopee.svg",
 
-    icon:
-      'file:shopee.svg',
+    group: ["transform"],
 
-    group:
-      ['transform'],
+    version: 1,
 
-    version:
-      1,
+    subtitle: '={{$parameter["operation"]}}',
 
-    subtitle:
-      '={{$parameter["operation"]}}',
-
-    description:
-      'Shopee Affiliate API',
+    description: "Shopee Affiliate API",
 
     defaults: {
-      name:
-        'Shopee Affiliate',
+      name: "Shopee Affiliate",
     },
 
-    inputs:
-      ['main'],
+    inputs: ["main"],
 
-    outputs:
-      ['main'],
+    outputs: ["main"],
 
     credentials: [
-
       {
-        name:
-          'shopeeAffiliateApi',
+        name: "shopeeAffiliateApi",
 
-        required:
-          true,
+        required: true,
       },
     ],
 
     properties: [
-
       /*
        * Operation
        */
 
       {
-        displayName:
-          'Operation',
+        displayName: "Operation",
 
-        name:
-          'operation',
+        name: "operation",
 
-        type:
-          'options',
+        type: "options",
 
-        noDataExpression:
-          true,
+        noDataExpression: true,
 
         options: [
-
           {
-            name:
-              'Generate Short Link',
+            name: "Generate Short Link",
 
-            value:
-              'generateShortLink',
+            value: "generateShortLink",
           },
 
           {
-            name:
-              'Get Offers Automation',
+            name: "Get Offers Automation",
 
-            value:
-              'getOffersAutomation',
+            value: "getOffersAutomation",
           },
 
           {
-            name:
-              'Get Offers',
+            name: "Get Offers",
 
-            value:
-              'getOffers',
+            value: "getOffers",
           },
 
           {
-            name:
-              'Search Products',
+            name: "Search Products",
 
-            value:
-              'searchProducts',
+            value: "searchProducts",
           },
         ],
 
-        default:
-          'generateShortLink',
+        default: "generateShortLink",
       },
 
       /*
@@ -132,20 +96,14 @@ export class ShopeeAffiliate
 
       ...generateShortLinkProperties,
 
-      ...getOffersProperties,
-
-      ...getOffersAutomationProperties
+      ...commonProductProperties,
 
       // ...searchProductsProperties,
     ],
   };
 
-  async execute(
-    this: IExecuteFunctions,
-  ): Promise<INodeExecutionData[][]> {
-
-    const items =
-      this.getInputData();
+  async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+    const items = this.getInputData();
 
     const promises = items.map(async (_, i) => {
       const resultItems: INodeExecutionData[] = [];
@@ -157,11 +115,19 @@ export class ShopeeAffiliate
        */
 
       if (operation === "generateShortLink") {
-        const data = await executeGenerateShortLink(this, i);
+        const data: any = await executeGenerateShortLink(this, i);
 
-        resultItems.push({
-          json: data,
-        });
+        if (data && Array.isArray(data)) {
+          for (const item of data) {
+            resultItems.push({
+              json: item,
+            });
+          }
+        } else {
+          resultItems.push({
+            json: data,
+          });
+        }
       }
 
       /*

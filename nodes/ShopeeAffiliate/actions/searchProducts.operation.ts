@@ -10,11 +10,6 @@ import { graphqlRequest }
 import { commonProductProperties }
   from './common.properties';
 
-export const searchProductsProperties:
-  INodeProperties[] = [
-    ...commonProductProperties,
-  ];
-
 export async function executeSearchProducts(
   context: IExecuteFunctions,
   index: number,

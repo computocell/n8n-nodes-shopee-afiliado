@@ -7,10 +7,6 @@ import {
 import { graphqlRequest } from "../transport/graphql.request";
 import { commonProductProperties } from "./common.properties";
 
-export const getOffersAutomationProperties: INodeProperties[] = [
-  ...commonProductProperties,
-];
-
 export async function executeGetOffersAutomation(
   context: IExecuteFunctions,
   index: number

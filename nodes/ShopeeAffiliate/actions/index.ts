@@ -3,18 +3,9 @@ export {
   executeGenerateShortLink,
 } from './generateShortLink.operation';
 
-export {
-  getOffersProperties,
-  executeGetOffers,
-} from './getOffers.operation';
+export { executeGetOffers } from "./getOffers.operation";
 
-export {
-  searchProductsProperties,
-  executeSearchProducts,
-} from './searchProducts.operation';
+export { executeSearchProducts } from "./searchProducts.operation";
 
-export {
-  getOffersAutomationProperties,
-  executeGetOffersAutomation,
-} from './getOffersAutomation.operation';
+export { executeGetOffersAutomation } from "./getOffersAutomation.operation";
 
