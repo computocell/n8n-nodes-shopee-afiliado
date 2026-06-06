@@ -12,3 +12,9 @@ export {
   searchProductsProperties,
   executeSearchProducts,
 } from './searchProducts.operation';
+
+export {
+  getOffersAutomationProperties,
+  executeGetOffersAutomation,
+} from './getOffersAutomation.operation';
+

@@ -10,138 +10,7 @@ import { graphqlRequest }
 import { commonProductProperties }
   from './common.properties';
 
-export const getOffersProperties:
-  INodeProperties[] = [
-
-    /*
-     * Item ID (exclusivo do getOffers)
-     */
-
-    {
-      displayName: 'Item ID',
-
-      name: 'itemId',
-
-      type: 'number',
-
-      default: 0,
-
-      description:
-        'Busca um produto específico pelo ID',
-
-      displayOptions: {
-        show: {
-          operation: [
-            'getOffers',
-          ],
-        },
-      },
-    },
-
-    /*
-     * List Type (exclusivo do getOffers)
-     */
-
-    {
-      displayName: 'List Type',
-
-      name: 'listType',
-
-      type: 'options',
-
-      default: 0,
-
-      description:
-        'Type of product offer list',
-
-      displayOptions: {
-        show: {
-          operation: [
-            'getOffers',
-          ],
-        },
-      },
-
-      options: [
-
-        {
-          name: 'All',
-
-          value: 0,
-
-          description:
-            'Recommendation product list, not available to sort',
-        },
-
-        {
-          name: 'Top Performing',
-
-          value: 2,
-
-          description:
-            'Top performing product offer list, not available to sort',
-        },
-
-        {
-          name: 'Landing Category',
-
-          value: 3,
-
-          description:
-            'Product offer list of recommendation category in landing page, not available to sort',
-        },
-
-        {
-          name: 'Detail Category',
-
-          value: 4,
-
-          description:
-            'Product offer list of specific category in detail page',
-        },
-
-        {
-          name: 'Detail Shop',
-
-          value: 5,
-
-          description:
-            'Product offer list of specific shop in detail page',
-        },
-      ],
-    },
-
-    /*
-     * Match ID (exclusivo do getOffers)
-     */
-
-    {
-      displayName: 'Match ID',
-
-      name: 'matchId',
-
-      type: 'number',
-
-      default: 0,
-
-      description:
-        'The matchid for specific listType. CategoryId for LANDING_CATEGORY and DETAIL_CATEGORY; ShopId for DETAIL_SHOP',
-
-      displayOptions: {
-        show: {
-          operation: [
-            'getOffers',
-          ],
-        },
-      },
-    },
-
-    /*
-     * Propriedades comuns (compartilhadas com searchProducts)
-     */
-
-    ...commonProductProperties,
-  ];
+export const getOffersProperties: INodeProperties[] = [...commonProductProperties];
 
 export async function executeGetOffers(
   context: IExecuteFunctions,
@@ -308,10 +177,11 @@ export async function executeGetOffers(
 					shopId
 
 					shopName
+          
 
 					productLink
 
-					offerLink
+					${shortlink ? "offerLink" : ""}
 
 					productCatIds
 
@@ -334,99 +204,35 @@ export async function executeGetOffers(
 		}
 	`;
 
-  const response =
-    await graphqlRequest(
-      context,
-      {
-        query,
-      },
-    );
+  const response = await graphqlRequest(context, {
+    query,
+  });
 
-  if (
-    response.errors?.length
-  ) {
-
+  if (response.errors?.length) {
     throw new NodeOperationError(
       context.getNode(),
 
-      response.errors[0]
-        .message,
+      response.errors[0].message,
 
       {
         itemIndex: index,
-      },
+      }
     );
   }
 
-  const result =
-    response.data
-      .productOfferV2;
+  const result = response.data.productOfferV2;
 
-  const products =
-    result.nodes || [];
+  const products = result.nodes || [];
 
   /*
    * Miniatura
    */
 
   if (thumbnail) {
-
     for (const product of products) {
-
-      product.miniatura =
-        `=IMAGE("${product.imageUrl}";4;400;400)`;
+      product.miniatura = `=IMAGE("${product.imageUrl}";4;400;400)`;
     }
   }
 
-  /*
-   * Short Links
-   */
-
-  if (shortlink) {
-
-    await Promise.all(
-
-      products.map(
-        async (product: any) => {
-
-          try {
-
-            const shortLinkQuery = `
-							mutation {
-								generateShortLink(
-									input: {
-										originUrl: "${product.offerLink}"
-									}
-								) {
-									shortLink
-								}
-							}
-						`;
-
-            const shortLinkResponse =
-              await graphqlRequest(
-                context,
-                {
-                  query:
-                    shortLinkQuery,
-                },
-              );
-
-            product.shortLink =
-              shortLinkResponse
-                ?.data
-                ?.generateShortLink
-                ?.shortLink || null;
-
-          } catch {
-
-            product.shortLink =
-              null;
-          }
-        },
-      ),
-    );
-  }
-
-  return result;
+  return response;
 }

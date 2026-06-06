@@ -161,7 +161,7 @@ export async function executeSearchProducts(
 
 					productLink
 
-					offerLink
+					${shortlink ? "offerLink" : ""}
 
 					productCatIds
 
@@ -184,99 +184,35 @@ export async function executeSearchProducts(
 		}
 	`;
 
-  const response =
-    await graphqlRequest(
-      context,
-      {
-        query,
-      },
-    );
+  const response = await graphqlRequest(context, {
+    query,
+  });
 
-  if (
-    response.errors?.length
-  ) {
-
+  if (response.errors?.length) {
     throw new NodeOperationError(
       context.getNode(),
 
-      response.errors[0]
-        .message,
+      response.errors[0].message,
 
       {
         itemIndex: index,
-      },
+      }
     );
   }
 
-  const result =
-    response.data
-      .productOfferV2;
+  const result = response.data.productOfferV2;
 
-  const products =
-    result.nodes || [];
+  const products = result.nodes || [];
 
   /*
    * Miniatura
    */
 
   if (thumbnail) {
-
     for (const product of products) {
-
-      product.miniatura =
-        `=IMAGE("${product.imageUrl}";4;400;400)`;
+      product.miniatura = `=IMAGE("${product.imageUrl}";4;400;400)`;
     }
   }
 
-  /*
-   * Short Links
-   */
-
-  if (shortlink) {
-
-    await Promise.all(
-
-      products.map(
-        async (product: any) => {
-
-          try {
-
-            const shortLinkQuery = `
-							mutation {
-								generateShortLink(
-									input: {
-										originUrl: "${product.offerLink}"
-									}
-								) {
-									shortLink
-								}
-							}
-						`;
-
-            const shortLinkResponse =
-              await graphqlRequest(
-                context,
-                {
-                  query:
-                    shortLinkQuery,
-                },
-              );
-
-            product.shortLink =
-              shortLinkResponse
-                ?.data
-                ?.generateShortLink
-                ?.shortLink || null;
-
-          } catch {
-
-            product.shortLink =
-              null;
-          }
-        },
-      ),
-    );
-  }
-
-  return result;
+  return response;
 }

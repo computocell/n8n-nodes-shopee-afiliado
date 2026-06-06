@@ -2,26 +2,17 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "ES2022",
-
     "lib": [
       "ES2022"
     ],
-
     "moduleResolution": "node",
-
     "declaration": false,
-
     "sourceMap": false,
-
     "outDir": "dist",
-
     "strict": false,
-
     "esModuleInterop": true,
-
     "skipLibCheck": true
   },
-
   "include": [
     "credentials/**/*.ts",
     "nodes/**/*.ts"

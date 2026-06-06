@@ -15,6 +15,8 @@ import {
 
   searchProductsProperties,
   executeSearchProducts,
+  getOffersAutomationProperties,
+  executeGetOffersAutomation,
 
 } from './actions';
 
@@ -97,6 +99,14 @@ export class ShopeeAffiliate
 
           {
             name:
+              'Get Offers Automation',
+
+            value:
+              'getOffersAutomation',
+          },
+
+          {
+            name:
               'Get Offers',
 
             value:
@@ -124,7 +134,9 @@ export class ShopeeAffiliate
 
       ...getOffersProperties,
 
-      ...searchProductsProperties,
+      ...getOffersAutomationProperties
+
+      // ...searchProductsProperties,
     ],
   };
 
@@ -188,6 +200,34 @@ export class ShopeeAffiliate
         returnData.push({
           json: data,
         });
+      }
+
+      /*
+       * Get Offers Automation
+       */
+
+      if (
+        operation ===
+        'getOffersAutomation'
+      ) {
+
+        const data: any =
+          await executeGetOffersAutomation(
+            this,
+            i,
+          );
+
+        if (data.nodes && Array.isArray(data.nodes)) {
+          for (const item of data.nodes) {
+            returnData.push({
+              json: item,
+            });
+          }
+        } else {
+          returnData.push({
+            json: data,
+          });
+        }
       }
 
       /*
