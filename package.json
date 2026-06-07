@@ -1,6 +1,6 @@
 {
-  "name": "@oliveirajeffso/n8n-nodes-shopee-affiliate",
-  "version": "0.0.1",
+  "name": "n8n-nodes-shopee-affiliate",
+  "version": "0.0.0",
   "description": "Shopee Affiliate node for n8n",
   "keywords": [
     "n8n-community-node-package"
@@ -12,8 +12,7 @@
     "dev": "docker compose down && docker compose build --no-cache && docker compose up",
     "test": "tsc && jest",
     "prepublishOnly": "npm run build",
-     "obfuscate": "node ./scripts/obfuscate.js"
-
+    "obfuscate": "node ./scripts/obfuscate.js"
   },
   "n8n": {
     "n8nNodesApiVersion": 1,
