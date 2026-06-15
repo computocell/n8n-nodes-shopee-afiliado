@@ -5,3 +5,4 @@
 - **2026-06-14:** Criado workflow do GitHub Actions em `.github/workflows/ci.yml` para execução automática de testes em cada push/PR.
 - **2026-06-14:** Configurado Dependabot (`.github/dependabot.yml`) para suporte a `pnpm`.
 - **2026-06-14:** Aplicados patches de segurança para todas as vulnerabilidades detectadas (`axios`, `fast-xml-parser`, `lodash`, `uuid`, `qs`, `file-type`). Auditoria agora limpa (0 vulnerabilidades).
+- **2026-06-14:** Corrigido erro `10030: Rate limit exceeded` alterando a execução do node de paralela (`Promise.all`) para sequencial (loop `for`).

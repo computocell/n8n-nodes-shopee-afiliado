@@ -6,6 +6,7 @@ Fase 0 — Foundation   [X] done
 Infraestrutura CI     [X] done
 Config Dependabot     [X] done
 Patch Segurança       [X] done
+Correção Rate Limit   [X] done
 ```
 
 ## Features ativas
@@ -14,6 +15,7 @@ Patch Segurança       [X] done
 | CI Workflow | — | [X] done |
 | Dependabot Config | — | [X] done |
 | Security Patches (All)| — | [X] done |
+| Fix Rate Limit (10030)| — | [X] done |
 
 ## Próximo passo
 **Aguardando:** Definição de nova feature de evolução.
