@@ -48,5 +48,10 @@
   "dependencies": {
     "n8n-core": "^2.16.1",
     "n8n-workflow": "^2.16.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "axios": "^1.17.0"
+    }
   }
 }

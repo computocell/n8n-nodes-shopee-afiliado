@@ -4,12 +4,16 @@
 ```
 Fase 0 — Foundation   [X] done
 Infraestrutura CI     [X] done
+Config Dependabot     [X] done
+Patch Segurança       [X] done
 ```
 
 ## Features ativas
 | Feature | Branch | Status |
 |---------|--------|--------|
 | CI Workflow | — | [X] done |
+| Dependabot Config | — | [X] done |
+| Axios Security Patch| — | [X] done |
 
 ## Próximo passo
 **Aguardando:** Definição de nova feature de evolução.

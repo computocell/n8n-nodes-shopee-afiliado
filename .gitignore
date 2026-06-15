@@ -6,7 +6,6 @@ data
 node_modules
 dist
 .git
-.github
 Dockerfile
 npm-debug.log
 pnpm-debug.log
