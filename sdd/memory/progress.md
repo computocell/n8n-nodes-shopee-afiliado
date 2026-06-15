@@ -3,12 +3,13 @@
 ## Status
 ```
 Fase 0 — Foundation   [X] done
+Infraestrutura CI     [X] done
 ```
 
 ## Features ativas
 | Feature | Branch | Status |
 |---------|--------|--------|
-| — | — | — |
+| CI Workflow | — | [X] done |
 
 ## Próximo passo
 **Aguardando:** Definição de nova feature de evolução.
