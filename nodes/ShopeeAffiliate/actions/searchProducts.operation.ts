@@ -209,5 +209,5 @@ export async function executeSearchProducts(
     }
   }
 
-  return result;
+  return response;
 }

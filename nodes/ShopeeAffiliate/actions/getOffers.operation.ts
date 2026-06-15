@@ -232,5 +232,5 @@ export async function executeGetOffers(
     }
   }
 
-  return result;
+  return response;
 }
