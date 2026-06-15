@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-shopee-affiliate",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Shopee Affiliate node for n8n",
   "keywords": [
     "n8n-community-node-package"
@@ -8,12 +8,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/computocell/n8n-node-shopee-afiliado.git"
+    "url": "git+https://github.com/computocell/n8n-nodes-shopee-afiliado.git"
   },
   "bugs": {
-    "url": "https://github.com/computocell/n8n-node-shopee-afiliado/issues"
+    "url": "https://github.com/computocell/n8n-nodes-shopee-afiliado/issues"
   },
-  "homepage": "https://github.com/computocell/n8n-node-shopee-afiliado#readme",
+  "homepage": "https://github.com/computocell/n8n-nodes-shopee-afiliado#readme",
   "main": "dist/index.js",
   "files": [
     "dist",
