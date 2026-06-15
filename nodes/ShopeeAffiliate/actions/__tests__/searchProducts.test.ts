@@ -38,6 +38,6 @@ describe('searchProducts operation', () => {
 
     const result = await executeSearchProducts(fakeContext, 0);
     expect(result).toBeDefined();
-    expect(result.nodes?.[0].itemId).toBe(456);
+    expect(result.data.productOfferV2.nodes?.[0].itemId).toBe(456);
   });
 });

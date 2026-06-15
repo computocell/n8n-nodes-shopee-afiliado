@@ -41,6 +41,6 @@ describe('getOffers operation', () => {
 
     const result = await executeGetOffers(fakeContext, 0);
     expect(result).toBeDefined();
-    expect(result.nodes?.[0].itemId).toBe(123);
+    expect(result.data.productOfferV2.nodes?.[0].itemId).toBe(123);
   });
 });
