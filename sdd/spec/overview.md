@@ -1,6 +1,6 @@
-# Overview — meu-projeto
+# Overview — n8n-node-shopee-afiliado
 
-[2-3 linhas descrevendo o sistema]
+Este projeto é um pacote de nodes customizados para a plataforma n8n, focado em automatizar interações com a API de Afiliados da Shopee. Ele permite que usuários do n8n integrem fluxos de marketing, busca de produtos e gestão de links de afiliados de forma nativa.
 
 ## Índice
 - `stack.md` — tecnologias
@@ -13,13 +13,20 @@
 ## Arquitetura (C4 Model)
 
 ### Nível 1: Contexto
-\`\`\`mermaid
+```mermaid
 graph TB
-  User((Usuário)) --> Project[meu-projeto]
-\`\`\`
+  User((Usuário n8n)) --> N8N[Plataforma n8n]
+  N8N --> ShopeeNode[n8n-node-shopee-afiliado]
+  ShopeeNode --> ShopeeAPI[API Shopee Affiliate]
+```
 
 ### Nível 2: Containers
-\`\`\`mermaid
+```mermaid
 graph LR
-  App[Aplicação] --> DB[(Banco de Dados)]
-\`\`\`
+  subgraph n8n_Instance [Instância n8n]
+    Workflow[Workflow Engine] --> NodeUI[Node UI Config]
+    NodeUI --> NodeLogic[Node Logic / Actions]
+  end
+  NodeLogic --> GraphQL[GraphQL Transport]
+  GraphQL --> ShopeeAPI((Shopee GraphQL API))
+```

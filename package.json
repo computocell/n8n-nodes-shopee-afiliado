@@ -6,6 +6,14 @@
     "n8n-community-node-package"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/computocell/n8n-node-shopee-afiliado.git"
+  },
+  "bugs": {
+    "url": "https://github.com/computocell/n8n-node-shopee-afiliado/issues"
+  },
+  "homepage": "https://github.com/computocell/n8n-node-shopee-afiliado#readme",
   "main": "dist/index.js",
   "files": [
     "dist",

@@ -1,17 +1,17 @@
-# Progress — meu-projeto
+# Progress — n8n-node-shopee-afiliado
 
 ## Status
 ```
-Fase 0 — Foundation   [ ] todo
+Fase 0 — Foundation   [X] done
 ```
 
 ## Features ativas
 | Feature | Branch | Status |
 |---------|--------|--------|
-| feat-00-foundation | feat/foundation | todo |
+| — | — | — |
 
 ## Próximo passo
-**Iniciar:** feat-00-foundation
+**Aguardando:** Definição de nova feature de evolução.
 **Bloqueios:** —
 
 ## Handoff da última sessão
